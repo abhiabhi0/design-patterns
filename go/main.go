@@ -6,6 +6,7 @@ import (
 	"design-patterns/creational/factorymethod"
 	"design-patterns/creational/prototype"
 	"design-patterns/creational/singleton"
+	"design-patterns/structural/adapter"
 	"fmt"
 )
 
@@ -84,10 +85,24 @@ func runAbstractFactory() {
 	abstractfactory.ClientCode(lightFactory)
 }
 
+func runAdapter() {
+	paymentRequest := adapter.PaymentRequest{
+		Name:   "John Doe",
+		Phone:  "1234567890",
+		Email:  "john@example.com",
+		Amount: 100,
+	}
+
+	cashfreeProvider := adapter.NewCashFreePayProvider()
+	adapter.ProcessPayment(cashfreeProvider, paymentRequest)
+}
+
 func main() {
 	//runSingleton()
 	//runBuilder()
 	//runPrototype()
 	//runFactoryMethod()
-	runAbstractFactory()
+	//runAbstractFactory()
+
+	runAdapter()
 }
