@@ -7,6 +7,9 @@ import (
 	"design-patterns/creational/prototype"
 	"design-patterns/creational/singleton"
 	"design-patterns/structural/adapter"
+	"design-patterns/structural/decorator"
+	"design-patterns/structural/facade"
+	"design-patterns/structural/flyweight"
 	"fmt"
 )
 
@@ -97,6 +100,39 @@ func runAdapter() {
 	adapter.ProcessPayment(cashfreeProvider, paymentRequest)
 }
 
+func runFlyweight() {
+	// Create a BulletRegistry instance
+	registry := flyweight.NewBulletRegistry()
+
+	// Add bullets to the registry
+	registry.AddBullet(flyweight.NewBullet("9mm.png", 9.0, 7.5, flyweight.NINE_MM))
+	registry.AddBullet(flyweight.NewBullet("11mm.png", 11.0, 8.0, flyweight.ELEVEN_MM))
+	registry.AddBullet(flyweight.NewBullet("acp.png", 12.0, 9.0, flyweight.ACP))
+
+	// Retrieve a bullet from the registry
+	bullet := registry.GetBullet(flyweight.NINE_MM)
+
+	// Create a FlyingBullet instance
+	flyingBullet := flyweight.NewFlyingBullet(0.0, 0.0, 0.0, 90.0, bullet)
+
+	// Print the details of the FlyingBullet instance
+	fmt.Println(flyingBullet.Details())
+}
+
+func runDecorator() {
+	var datasource decorator.Datasource = &decorator.FileDatasource{}
+	encryptedDatasource := decorator.NewEncryptionDecorator(datasource)
+	compressedEncryptedDatasource := decorator.NewCompressionDecorator(encryptedDatasource)
+
+	compressedEncryptedDatasource.Write("Test Data")
+	fmt.Println(compressedEncryptedDatasource.Read())
+}
+
+func runFacade() {
+	orderFlowProcessor := facade.NewOrderFlowProcessor()
+	orderFlowProcessor.Process()
+}
+
 func main() {
 	//runSingleton()
 	//runBuilder()
@@ -104,5 +140,8 @@ func main() {
 	//runFactoryMethod()
 	//runAbstractFactory()
 
-	runAdapter()
+	//runAdapter()
+	//runFlyweight()
+	//runDecorator()
+	runFacade()
 }
